@@ -94,7 +94,11 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   echo "</pre>";
 
   // Explode the metadata into an array of strings, breaking each at <tr>.
-  $elements = explode("<tr>", $metadata);
+  $DOM = new DOMDocument();
+  $DOM->loadHTML($metadata);
+  $header = $DOM->getElementsByTagName('th');
+  $elements = $DOM->getElementsByTagName('tr');
+  // $elements = explode("<tr>", $metadata);
   $count = count($elements);
   $redundant = 0;
 
@@ -108,7 +112,10 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   foreach ($elements as $i => $row) {
     for ($j=$i+1; $j<$count; $j++) {
       if (!strstr($row, 'do-not-hide') && $elements[$j] === $row) {
-        $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
+        // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
+        $attr = $DOM->createAttribute('class');
+        $attr->value = 'hidden';
+        $elements[$i]->appendChild($attr);
         $redundant++;
       }
     }
@@ -121,7 +128,8 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Put the metadata back together from the modified $elements.
   if ($redundant) {
-    $returned = implode('<tr>', $elements);
+    $returned = $DOM->saveXML( );
+    // $returned = implode('<tr>', $elements);
     return $returned;
   } else {
     return $metadata;
