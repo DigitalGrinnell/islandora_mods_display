@@ -93,8 +93,8 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   var_dump($metadata);
   echo "</pre>";
 
-  // Explode the metadata into an array of strings, breaking each at </tr>.
-  $elements = explode('</tr>', $metadata);
+  // Explode the metadata into an array of strings, breaking each at <tr>.
+  $elements = explode("<tr>", $metadata);
   $count = count($elements);
   $redundant = 0;
 
@@ -121,7 +121,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Put the metadata back together from the modified $elements.
   if ($redundant) {
-    $returned = implode('</tr>', $elements);
+    $returned = implode('<tr>', $elements);
     return $returned;
   } else {
     return $metadata;
