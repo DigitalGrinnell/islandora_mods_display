@@ -84,7 +84,7 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  * MAM authored helper function to 'hide' redundant table rows from MODS display.
  *
  * @param $metadata
- *   String of complete metadata (with normal line endings) to be displayed.  Note that before the fix in May 2020, this array was expected to contain </tr> terminated table rows. 
+ *   Metadata for <table> display.
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
@@ -93,9 +93,8 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   var_dump($metadata);
   echo "</pre>";
 
-  // Explode the metadata into an array of strings, one string per line.
-  $elements = explode(PHP_EOL, $metadata);
-  // $elements = explode("</tr>", $metadata);
+  // Explode the metadata into an array of strings, breaking each at </tr>.
+  $elements = explode('</tr>', $metadata);
   $count = count($elements);
   $redundant = 0;
 
