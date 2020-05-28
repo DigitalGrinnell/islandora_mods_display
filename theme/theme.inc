@@ -88,13 +88,18 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
+  // Dump the $metadata array...
+  echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
+  var_dump($metadata);
+  echo "</pre>";
+
   // Explode the metadata into an array of <tr> elements.
   $elements = explode("</tr>", $metadata);
   $count = count($elements);
   $redundant = 0;
 
   // Dump the $elements array...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: Before <br/>";
+  echo "<pre> islandora_mods_display_remove_redundant_rows: elements Before <br/>";
   var_dump($elements);
   echo "</pre>";
 
@@ -110,7 +115,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   }
 
   // Dump the $elements array...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: After <br/>";
+  echo "<pre> islandora_mods_display_remove_redundant_rows: elements After <br/>";
   var_dump($elements);
   echo "</pre>";
 
