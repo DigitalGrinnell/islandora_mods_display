@@ -93,6 +93,8 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
+  $redundant = false;
+
   // Print the $metadata string...
   echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
   var_dump($metadata);
@@ -100,8 +102,17 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
 
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
-  print_r($DOM);
 
+  $iterator = new DOMRecursiveIterator($DOM->documentElement);
+  $iterator = new DOMRecursiveDecoratorStringAsCurrent($iterator);
+  $tree = new RecursiveTreeIterator($iterator);
+  foreach($tree as $key => $value)
+  {
+      echo $value . "\n";
+  }
+
+
+  /*
   $rows = $DOM->getElementsByTagName("tr");
   $count = count($rows);
   echo "<pre>";
