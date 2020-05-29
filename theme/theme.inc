@@ -71,7 +71,12 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
           $did_load_ok = $input->loadXML($mods);
           if ($did_load_ok) {
             $xslt->importStylesheet($xslt_dom);
-            $variables['metadata'] .= $xslt->transformToXml($input);
+            $parent_table = $xslt->transformToXml($input);
+            if ($parent_table) {
+              $variables['metadata'] .= $parent_table;
+            } else {
+              drupal_set_message("Could not transform compound parent MODS as XML in islandora_mods_display_preprocess_islandora_mods_display_display( )!", 'warning');
+            }
             $variables['metadata'] = islandora_mods_display_remove_redundant_rows($variables['metadata']);
           }
         }
@@ -90,13 +95,13 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Print the $metadata string...
   echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
-  print_r($metadata);
+  var_dump($metadata);
 
 
   // Explode the metadata into an array of strings, breaking each at '/tr'.
-  $elements = explode(' ', $metadata);
+  $elements = explode('</tr>', $metadata);
   foreach ($elements as $e) {
-    print_r($e);
+    var_dump($e);
   }
 
   /*
