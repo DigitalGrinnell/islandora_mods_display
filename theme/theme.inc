@@ -101,10 +101,14 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
   foreach ($elements as $i => $row) {
+    $r = trim($row);
     for ($j=$i+1; $j<$count; $j++) {
-      if (!strstr($row, 'do-not-hide') && $elements[$j] === $row) {
-        $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
-        $redundant++;
+      if (!strstr($r, 'do-not-hide')) {
+        $e = trim($elements[$j]);
+        if ($e === $r) {
+          $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
+          $redundant++;
+        }
       }
     }
   }
