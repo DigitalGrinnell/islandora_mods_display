@@ -94,16 +94,16 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Sanitize the $metadata, remove all xmlns:xlink="http://www.w3.org/1999/xlink" substrings
-  $m = str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $metadata, $c);
+  // $m = str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $metadata, $c);
 
-  echo "<pre>";
+  /* echo "<pre>";
   echo "c = $c";
   echo "";
   var_dump($m);
-  echo "</pre>";
+  echo "</pre>"; */
 
   // Explode the metadata into an array of <tr> elements.
-  $elements = explode("</tr>", $m);
+  $elements = explode("</tr>", $metadata);
   $count = count($elements);
   $redundant= 0;
 
@@ -115,13 +115,13 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
       if (!strstr($r, 'do-not-hide')) {
         $e = trim($elements[$j]);
         if ($e === $r) {
-          echo "<pre>";
+          /* echo "<pre>";
           echo "";
           var_dump($e);
           echo "";
           var_dump($r);
-          echo "</pre>";
-          $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
+          echo "</pre>"; */
+          $elements[$i] = str_replace('<tr', '<tr class="hidden"', $elements[$i]);
           $redundant++;
         }
       }
