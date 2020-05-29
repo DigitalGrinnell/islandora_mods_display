@@ -96,28 +96,13 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // Print the $metadata string...
   echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
   var_dump($metadata);
+  echo "</pre>";
 
-
-  // Explode the metadata into an array of strings, breaking each at '/tr'.
-  // $elements = explode('<//tr>', $metadata);
-  $elements = array_filter(explode('</tr>', str_replace('<tr>', '', $metadata)));
-  foreach ($elements as $e) {
-    var_dump($e);
-  }
-
-  /*
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
   print_r($DOM);
-  */
-  echo "</pre>";
-  return $metadata;
 
-  /*
-  // $header = $DOM->getElementsByTagName('th');
   $rows = $DOM->getElementsByTagName("tr");
-  // $elements = $DOM->getElementsByTagName('td');
-  // $elements = explode("<tr>", $metadata);
   $count = count($rows);
   echo "<pre>";
   echo "Count = $count";
@@ -129,17 +114,17 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   //var_dump($elements);
   //echo "</pre>";
 
-  // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
+  // Loop on all the $rows.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
   echo "<pre>";
   foreach ($rows as $i => $tr) {
     echo "i = $i";
     echo "  tr[i] = ";
-    print_r($tr[$i]);
+    var_dump($tr[$i]);
     for ($j=$i+1; $j<$count; $j++) {
       if ($rows[$j] === $tr) {
         echo "Match found at i, j = $i, $j";
-        print_r($row[$j]);
+        var_dump($row[$j]);
         // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $attr = $DOM->createAttribute('class');
         $attr->value = 'hidden';
@@ -149,11 +134,12 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
     }
   }
 
-  // Dump the $elements array...
+  /* Dump the $elements array...
   echo "<pre>";
   echo "islandora_mods_display_remove_redundant_rows: elements After <br/>";
   print_r($rows);
   echo "</pre>";
+  */
 
   // Put the metadata back together from the modified $elements.
   if ($redundant) {
@@ -163,7 +149,6 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   } else {
     return $metadata;
   }
-  */
 }
 
 
