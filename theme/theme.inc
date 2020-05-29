@@ -91,11 +91,16 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // Print the $metadata string...
   echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
   print_r($metadata);
-  echo "</pre>";
+
 
   // Explode the metadata into an array of strings, breaking each at <td>.
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
+  print_r($DOM);
+  echo "</pre>";
+  return $metadata;
+
+  /*
   // $header = $DOM->getElementsByTagName('th');
   $rows = $DOM->getElementsByTagName("tr");
   // $elements = $DOM->getElementsByTagName('td');
@@ -145,7 +150,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   } else {
     return $metadata;
   }
-
+  */
 }
 
 
