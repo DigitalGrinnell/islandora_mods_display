@@ -89,7 +89,9 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Print the $metadata string...
-  print_r("<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>", $metadata, "</pre>");
+  echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
+  print_r($metadata);
+  echo "</pre>";
 
   // Explode the metadata into an array of strings, breaking each at <td>.
   $DOM = new DOMDocument();
@@ -99,7 +101,9 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // $elements = $DOM->getElementsByTagName('td');
   // $elements = explode("<tr>", $metadata);
   $count = count($rows);
-  print_r("<pre>Count = ", $count, "</pre>");
+  echo "<pre>";
+  echo "Count = $count";
+  echo "</pre>";
   $redundant = 0;
 
   // Dump the $elements array...
@@ -111,12 +115,13 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // redundant (matching) elements.
   echo "<pre>";
   foreach ($rows as $i => $tr) {
-    echo "i = " . $i;
-    print_r("  tr[i] = ", $tr[$i]);
+    echo "i = $i";
+    echo "  tr[i] = ";
+    print_r($tr[$i]);
     for ($j=$i+1; $j<$count; $j++) {
       if ($rows[$j] === $tr) {
         echo "Match found at i, j = $i, $j";
-        print_r("  row[j] = ", $row[$j]);
+        print_r($row[$j]);
         // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $attr = $DOM->createAttribute('class');
         $attr->value = 'hidden';
