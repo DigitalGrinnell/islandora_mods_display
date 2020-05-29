@@ -98,6 +98,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
 
   echo "<pre>";
   echo "c = $c";
+  echo "";
   var_dump($m);
   echo "</pre>";
 
@@ -114,6 +115,12 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
       if (!strstr($r, 'do-not-hide')) {
         $e = trim($elements[$j]);
         if ($e === $r) {
+          echo "<pre>";
+          echo "";
+          var_dump($e);
+          echo "";
+          var_dump($r);
+          echo "</pre>";
           $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
           $redundant++;
         }
