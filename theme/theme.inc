@@ -97,7 +97,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
   // $header = $DOM->getElementsByTagName('th');
-  $rows = $DOM->getElementsByTagName('tr');
+  $rows = $DOM->getElementsByTagName("tr");
   // $elements = $DOM->getElementsByTagName('td');
   // $elements = explode("<tr>", $metadata);
   $count = count($rows);
