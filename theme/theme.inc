@@ -101,6 +101,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   $elements = $DOM->getElementsByTagName('td');
   // $elements = explode("<tr>", $metadata);
   $count = count($elements);
+  echo "<pre>Count = $count</pre>";
   $redundant = 0;
 
   // Dump the $elements array...
@@ -112,10 +113,12 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // redundant (matching) elements.
   echo "<pre>";
   foreach ($rows as $i => $tr) {
-    echo "i, tr[i] = $i, " . print_r($tr[$i], true);
+    echo "i = $i";
+    print_r("  tr[i] = ", $tr[$i]);
     for ($j=$i+1; $j<$count; $j++) {
       if ($rows[$j] === $tr) {
-        echo "Match found at i, j = $i, $j, " . print_r($row[$j], true);
+        echo "Match found at i, j = $i, $j";
+        print_r("  row[j] = ", $row[$j]);
         // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $attr = $DOM->createAttribute('class');
         $attr->value = 'hidden';
@@ -126,7 +129,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   }
 
   // Dump the $elements array...
-  echo "";
+  echo "<pre>";
   echo "islandora_mods_display_remove_redundant_rows: elements After <br/>";
   print_r($rows);
   echo "</pre>";
