@@ -89,77 +89,34 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  * MAM authored helper function to 'hide' redundant table rows from MODS display.
  *
  * @param $metadata
- *   Metadata for <table> display.
+ *   Array of metadata table rows to be displayed.
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
-  $redundant = false;
+  // Explode the metadata into an array of <tr> elements.
+  $elements = explode("</tr>", $metadata);
+  $count = count($elements);
+  $redundant= 0;
 
-  // Print the $metadata string...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
-  var_dump($metadata);
-  echo "</pre>";
-
-  $DOM = new DOMDocument();
-  $DOM->loadHTML($metadata);
-
-  $iterator = new DOMRecursiveIterator($DOM->documentElement);
-  $iterator = new DOMRecursiveDecoratorStringAsCurrent($iterator);
-  $tree = new RecursiveTreeIterator($iterator);
-  foreach($tree as $key => $value)
-  {
-      echo $value . "\n";
-  }
-
-
-  /*
-  $rows = $DOM->getElementsByTagName("tr");
-  $count = count($rows);
-  echo "<pre>";
-  echo "Count = $count";
-  echo "</pre>";
-  $redundant = 0;
-
-  // Dump the $elements array...
-  //echo "<pre> islandora_mods_display_remove_redundant_rows: elements Before <br/>";
-  //var_dump($elements);
-  //echo "</pre>";
-
-  // Loop on all the $rows.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
+  // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
-  echo "<pre>";
-  foreach ($rows as $i => $tr) {
-    echo "i = $i";
-    echo "  tr[i] = ";
-    var_dump($tr[$i]);
+  foreach ($elements as $i => $row) {
     for ($j=$i+1; $j<$count; $j++) {
-      if ($rows[$j] === $tr) {
-        echo "Match found at i, j = $i, $j";
-        var_dump($row[$j]);
-        // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
-        $attr = $DOM->createAttribute('class');
-        $attr->value = 'hidden';
-        $rows[$i]->appendChild($attr);
+      if (!strstr($row, 'do-not-hide') && $elements[$j] === $row) {
+        $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $redundant++;
       }
     }
   }
 
-  /* Dump the $elements array...
-  echo "<pre>";
-  echo "islandora_mods_display_remove_redundant_rows: elements After <br/>";
-  print_r($rows);
-  echo "</pre>";
-  */
-
   // Put the metadata back together from the modified $elements.
   if ($redundant) {
-    $returned = $DOM->saveXML( );
-    // $returned = implode('<tr>', $elements);
+    $returned = implode('</tr>', $elements);
     return $returned;
   } else {
     return $metadata;
   }
+
 }
 
 
