@@ -94,7 +94,12 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Sanitize the $metadata, remove all xmlns:xlink="http://www.w3.org/1999/xlink" substrings
-  $m = str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $metadata);
+  $m = str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $metadata, $c);
+
+  echo "<pre>";
+  echo "c = $c";
+  var_dump($m);
+  echo "</pre>";
 
   // Explode the metadata into an array of <tr> elements.
   $elements = explode("</tr>", $m);
