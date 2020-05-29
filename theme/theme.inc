@@ -93,10 +93,17 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   print_r($metadata);
 
 
-  // Explode the metadata into an array of strings, breaking each at <td>.
+  // Explode the metadata into an array of strings, breaking each at '/tr'.
+  $elements = explode('/tr', $metadata);
+  foreach ($elements as $e) {
+    print_r($e);
+  }
+
+  /*
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
   print_r($DOM);
+  */
   echo "</pre>";
   return $metadata;
 
