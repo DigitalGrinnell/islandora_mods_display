@@ -88,42 +88,46 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
-  // Dump the $metadata array...
+  // Print the $metadata string...
   echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
-  var_dump($metadata);
-  echo "</pre>";
+  print_r($metadata);
+  echo "";
 
   // Explode the metadata into an array of strings, breaking each at <td>.
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
   $header = $DOM->getElementsByTagName('th');
+  $rows = $DOM->getElementsByTagName('tr');
   $elements = $DOM->getElementsByTagName('td');
   // $elements = explode("<tr>", $metadata);
   $count = count($elements);
   $redundant = 0;
 
   // Dump the $elements array...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: elements Before <br/>";
-  var_dump($elements);
-  echo "</pre>";
+  //echo "<pre> islandora_mods_display_remove_redundant_rows: elements Before <br/>";
+  //var_dump($elements);
+  //echo "</pre>";
 
   // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
-  foreach ($elements as $i => $row) {
+  foreach ($rows as $i => $tr) {
+    echo "i, tr[i] = $i, " . print_r($tr[$i]);
     for ($j=$i+1; $j<$count; $j++) {
-      if (!strstr($row, 'do-not-hide') && $elements[$j] === $row) {
+      if ($rows[$j] === $tr) {
+        echo "Match found at i, j = $i, $j, " . print_r($row[$j]);
         // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $attr = $DOM->createAttribute('class');
         $attr->value = 'hidden';
-        $elements[$i]->appendChild($attr);
+        $rows[$i]->appendChild($attr);
         $redundant++;
       }
     }
   }
 
   // Dump the $elements array...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: elements After <br/>";
-  var_dump($elements);
+  echo "";
+  echo "islandora_mods_display_remove_redundant_rows: elements After <br/>";
+  print_r($rows);
   echo "</pre>";
 
   // Put the metadata back together from the modified $elements.
