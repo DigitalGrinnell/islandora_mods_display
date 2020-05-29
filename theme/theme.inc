@@ -111,10 +111,10 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
   foreach ($rows as $i => $tr) {
-    echo "i, tr[i] = $i, " . print_r($tr[$i]);
+    echo "i, tr[i] = $i, " . print_r($tr[$i], true);
     for ($j=$i+1; $j<$count; $j++) {
       if ($rows[$j] === $tr) {
-        echo "Match found at i, j = $i, $j, " . print_r($row[$j]);
+        echo "Match found at i, j = $i, $j, " . print_r($row[$j], true);
         // $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
         $attr = $DOM->createAttribute('class');
         $attr->value = 'hidden';
