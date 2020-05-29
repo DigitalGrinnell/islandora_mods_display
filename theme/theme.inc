@@ -93,18 +93,21 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
  */
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
+  // Sanitize the $metadata, remove all xmlns:xlink="http://www.w3.org/1999/xlink" substrings
+  $m = str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $metadata);
+
   // Explode the metadata into an array of <tr> elements.
-  $elements = explode("</tr>", $metadata);
+  $elements = explode("</tr>", $m);
   $count = count($elements);
   $redundant= 0;
 
   // Loop on all the elements.  Add a class="hidden" attribute to the 2nd, 3rd, 4th, etc.
   // redundant (matching) elements.
   foreach ($elements as $i => $row) {
-    $r = trim(str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $row));
+    $r = trim($row);
     for ($j=$i+1; $j<$count; $j++) {
       if (!strstr($r, 'do-not-hide')) {
-        $e = trim(str_replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '', $elements[$j]));
+        $e = trim($elements[$j]);
         if ($e === $r) {
           $elements[$i] = str_replace('<tr>', '<tr class="hidden">', $elements[$i]);
           $redundant++;
