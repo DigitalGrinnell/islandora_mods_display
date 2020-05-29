@@ -89,19 +89,17 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
 function islandora_mods_display_remove_redundant_rows($metadata) {
 
   // Print the $metadata string...
-  echo "<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>";
-  print_r($metadata);
-  echo "</pre>";
+  print_r("<pre> islandora_mods_display_remove_redundant_rows: metadata <br/>", $metadata, "</pre>");
 
   // Explode the metadata into an array of strings, breaking each at <td>.
   $DOM = new DOMDocument();
   $DOM->loadHTML($metadata);
-  $header = $DOM->getElementsByTagName('th');
+  // $header = $DOM->getElementsByTagName('th');
   $rows = $DOM->getElementsByTagName('tr');
-  $elements = $DOM->getElementsByTagName('td');
+  // $elements = $DOM->getElementsByTagName('td');
   // $elements = explode("<tr>", $metadata);
-  $count = count($elements);
-  echo "<pre>Count = $count</pre>";
+  $count = count($rows);
+  print_r("<pre>Count = ", $count, "</pre>");
   $redundant = 0;
 
   // Dump the $elements array...
@@ -113,7 +111,7 @@ function islandora_mods_display_remove_redundant_rows($metadata) {
   // redundant (matching) elements.
   echo "<pre>";
   foreach ($rows as $i => $tr) {
-    echo "i = $i";
+    echo "i = " . $i;
     print_r("  tr[i] = ", $tr[$i]);
     for ($j=$i+1; $j<$count; $j++) {
       if ($rows[$j] === $tr) {
